@@ -17,13 +17,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up dependencies (CMake, Google Test)
+      # Step 2: Set up dependencies (CMake, g++, and Google Test)
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake g++
+          sudo apt-get install -y cmake g++ 
 
-      # Step 3: Build with CMake
+      # Step 3: Download and build Google Test
+      - name: Install Google Test
+        run: |
+          mkdir -p third_party
+          cd third_party
+          git clone https://github.com/google/googletest.git
+          cd googletest
+          mkdir -p build
+          cd build
+          cmake ..
+          make
+          sudo make install
+
+      # Step 4: Build the Project with CMake
       - name: Build Project
         run: |
           mkdir -p build
@@ -31,7 +44,7 @@ jobs:
           cmake ..
           make
 
-      # Step 4: Run tests
+      # Step 5: Run Tests
       - name: Run Tests
         run: |
           cd build
