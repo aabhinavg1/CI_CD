@@ -1,6 +1,5 @@
 name: CI/CD for Calculator
 
-# Run the workflow on pushes to main branch and pull requests
 on:
   push:
     branches:
@@ -18,15 +17,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up C++ compiler
-      - name: Set up C++ compiler
-        run: sudo apt-get update && sudo apt-get install -y g++
-
-      # Step 3: Compile calculator.cpp and test_calculator.cpp
-      - name: Compile Calculator
+      # Step 2: Set up dependencies (CMake, Google Test)
+      - name: Install dependencies
         run: |
-          g++ -o calculator calculator.cpp test_calculator.cpp -lgtest -lgtest_main -pthread
+          sudo apt-get update
+          sudo apt-get install -y cmake g++
+
+      # Step 3: Build with CMake
+      - name: Build Project
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+          make
 
       # Step 4: Run tests
       - name: Run Tests
-        run: ./calculator
+        run: |
+          cd build
+          ctest --output-on-failure
