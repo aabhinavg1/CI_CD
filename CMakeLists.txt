@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 11)
 add_library(calculator src/calculator.cpp)
 
 # Add executable for testing
-add_executable(test_calculator tests/test_calculator.cpp)
+add_executable(test_calculator test/test_calculator.cpp)
 
 # Link the calculator library with the test executable
 target_link_libraries(test_calculator calculator)
