@@ -1,5 +1,5 @@
 // test_calculator.cpp
-#include "calculator.h"
+#include "../src/calculator.h"
 #include <gtest/gtest.h>
 
 TEST(CalculatorTest, AddTest) {
